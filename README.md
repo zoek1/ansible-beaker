@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/zoek1/ansible-beaker.png?label=ready&title=Ready)](https://waffle.io/zoek1/ansible-beaker)
 ansible-beaker
 ==============
 
