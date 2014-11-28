@@ -1,0 +1,27 @@
+---
+- hosts: beaker
+  name: Install beaker
+  user: ubuntu
+
+  vars:
+    user: ubuntu
+    home: /home/{{ user }}
+
+  tasks:
+    - name: Clean previous instalation
+      command: rm -rf {{ home }}/beaker
+    - name: Install dependencies
+      apt: name=unzip state=present
+      sudo: yes
+    - name: Download Beaker
+      get_url: url=http://d299yghl10frh5.cloudfront.net/beaker-notebook-v1.0-1-g5644b78-ubuntu.zip dest={{ home }}/beaker.zip
+    - name: Unpack Beaker
+      command: unzip beaker.zip -d {{ home }}/beaker creates={{ home }}/beaker
+    - name: Clean download package
+      command: rm {{ home }}/beaker.zip
+    - wait_for: path={{ home }}/beaker/install-dependencies.sh
+    - name: Provision Beaker dependencies
+      command: /bin/bash {{ home }}/beaker/install-dependencies.sh
+      sudo: yes
+      environment: 
+        DEBIAN_FRONTEND: noninteractive 
